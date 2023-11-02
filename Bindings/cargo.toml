@@ -1,0 +1,3 @@
+﻿[workspace]
+members = ["resonite_bindings", "testlib"]
+resolver = "2"

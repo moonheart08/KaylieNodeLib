@@ -1,0 +1,4 @@
+packages/*
+KaylieNodeLib/bin/*
+KaylieNodeLib/obj/*
+Bindings/target/*
