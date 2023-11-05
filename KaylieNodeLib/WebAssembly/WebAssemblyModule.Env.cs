@@ -4,7 +4,7 @@ using Wasmtime;
 
 namespace KaylieNodeLib.WebAssembly;
 
-public partial class WebAssemblyModule
+public partial class WebAssemblyProcess
 {
     private readonly Stopwatch _stopwatch = new();
 
@@ -24,7 +24,7 @@ public partial class WebAssemblyModule
 
     private static long Wasm_Env_CurTime(Caller caller)
     {
-        var self = (WebAssemblyModule) caller.GetData()!;
+        var self = (WebAssemblyProcess) caller.GetData()!;
         return self._stopwatch.ElapsedTicks;
     }
 

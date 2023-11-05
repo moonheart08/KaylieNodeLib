@@ -17,9 +17,8 @@ public class WebAssemblyProceduralTexture : ProceduralTextureBase
     
     public readonly SyncRef<WebAssemblyMemory> WebAssemblyMemory;
     public readonly Sync<int> TargetAddress;
-
-    protected WebAssemblyModule? ModuleComponent => WebAssemblyMemory.Target?.Module.Target;
-    protected Memory? Memory => WebAssemblyMemory.Target?.Memory;
+    
+    private Memory? Memory => WebAssemblyMemory.Target?.Memory;
     
     protected override void GenerateErrorIndication() => TextureDecoder.FillErrorTexture(tex2D);
 

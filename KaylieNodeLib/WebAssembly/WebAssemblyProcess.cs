@@ -14,7 +14,7 @@ namespace KaylieNodeLib.WebAssembly;
 
 [Category("WASM")]
 [UsedImplicitly]
-public partial class WebAssemblyModule : Component, ICustomInspector
+public partial class WebAssemblyProcess : Component, ICustomInspector
 {
     private static readonly ulong MemSize = (ulong) Math.Pow(2, 24);
     
@@ -44,7 +44,9 @@ public partial class WebAssemblyModule : Component, ICustomInspector
                     .WithFuelConsumption(true)
                     .WithMaximumStackSize(65565)
                     .WithWasmThreads(false)
-                    .WithStaticMemoryMaximumSize(MemSize));
+                    .WithStaticMemoryMaximumSize(MemSize)
+                    .WithSIMD(true)
+                    .WithDebugInfo(true));
 
             return _wasmEngine;
         }
@@ -72,7 +74,6 @@ public partial class WebAssemblyModule : Component, ICustomInspector
 
         await new ToBackground();
         var file = await Engine.AssetManager.GatherAssetFile(target.URL.Value, 100f).ConfigureAwait(false);
-        await new ToWorld();
 
         try
         {
@@ -187,7 +188,6 @@ public partial class WebAssemblyModule : Component, ICustomInspector
                     var component = (WebAssemblyFuncBase) Slot.AttachComponent(gt);
                     component.Module.Target = this;
                     component.ExportName.Value = export.Name;
-                    component.ExportNameOnOnValueChange(component.ExportName);
                     break;
                 }
                 case GlobalExport global:
@@ -202,7 +202,6 @@ public partial class WebAssemblyModule : Component, ICustomInspector
                     var component = (WebAssemblyExportBase<GlobalExport>) Slot.AttachComponent(globaltype);
                     component.Module.Target = this;
                     component.ExportName.Value = global.Name;
-                    component.ExportNameOnOnValueChange(component.ExportName);
                     break;
                 }
                 case MemoryExport memory:
@@ -210,7 +209,6 @@ public partial class WebAssemblyModule : Component, ICustomInspector
                     var component = Slot.AttachComponent<WebAssemblyMemory>();
                     component.Module.Target = this;
                     component.ExportName.Value = memory.Name;
-                    component.ExportNameOnOnValueChange(component.ExportName);
                     break;
                 }
                 default:

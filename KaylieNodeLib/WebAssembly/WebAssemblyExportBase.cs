@@ -9,20 +9,18 @@ namespace KaylieNodeLib.WebAssembly;
 public abstract class WebAssemblyExportBase<T> : Component
     where T: Export
 {
-    public readonly RelayRef<WebAssemblyModule> Module;
+    public readonly RelayRef<WebAssemblyProcess> Module;
     public readonly Sync<string> ExportName;
     public readonly Sync<bool> Found;
-    private WebAssemblyModule? _lastModule;
 
     protected override void OnStart()
     {
         base.OnStart();
-        ExportName.OnValueChange += ExportNameOnOnValueChange;
     }
 
-    internal void ExportNameOnOnValueChange(SyncField<string> _)
+    protected override void OnChanges()
     {
-        if (!TryGetInstance(out var _))
+        if (!TryGetInstance(out _))
         {
             Found.Value = false;
             OnFieldStateChange();

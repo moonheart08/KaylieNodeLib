@@ -10,16 +10,14 @@ public class WebAssemblyMemory : WebAssemblyExportBase<MemoryExport>
     public readonly RawOutput<long> MinimumSize;
     internal Memory? Memory;
     
-    protected override void OnCommonUpdate()
+    protected override void OnFieldStateChange()
     {
-        // TODO: Find a better time to run this.
-        base.OnCommonUpdate();
-
         if (!TryGetInstance(out var instance))
         {
             Memory = null;
             return;
         }
+        
         Memory ??= instance?.GetMemory(ExportName);
         
         Length.Value = Memory?.GetLength() ?? 0;

@@ -40,9 +40,8 @@ public abstract class WebAssemblyFuncBase : WebAssemblyExportBase<FunctionExport
     {
         if (!TryGetInstance(out var instance) || ExportName.Value is not { } name)
             return null;
-        
-        UniLog.Log($"Searching for impl of function with sig [{string.Join(", ", (IEnumerable<Type>)Arguments)} => {ReturnType}.");
-        
+
+        UniLog.Log($"Searching for impl of function with sig [{string.Join(", ", (IEnumerable<Type>) Arguments)} => {ReturnType}.");
         return instance!.GetFunction(name, ReturnType, Arguments);
     }
 

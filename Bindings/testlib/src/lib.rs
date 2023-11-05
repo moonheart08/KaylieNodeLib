@@ -2,6 +2,9 @@
 #![feature(strict_provenance)]
 
 use std::ptr;
+use resonite_bindings::*;
+
+// 0xAABBGGRR
 
 #[no_mangle]
 pub static mut SCREEN: [u32; 23040] = [0xFF0000FF; 23040];
@@ -20,13 +23,17 @@ pub unsafe extern "wasm" fn worker()  {
     }
 }
 #[no_mangle]
-pub extern "wasm" fn set_funny() -> i32 {
+pub extern "wasm" fn set_funny() -> WInt {
     unsafe {
         let ptr = 4 as *mut i32;
         ptr::write(ptr, 69);
     }
     return 1;
 }
+
+#[no_mangle]
+pub extern "wasm" fn identi32(v: i32) -> i32 { v }
+
 #[no_mangle]
 pub extern "wasm" fn mirror() -> u64 {
     return unsafe { resonite_bindings::curtime() }
@@ -37,7 +44,7 @@ pub extern "wasm" fn make_it_green() -> u32
 {
     unsafe {
         for w in &mut SCREEN {
-            *w = 0x00FF00FF;
+            *w = 0xFF00FF00;
         }
 
         return 0;
